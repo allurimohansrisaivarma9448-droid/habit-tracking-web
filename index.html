@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracking System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>Habit Tracking System</h1>
+                    <p>Build Better Habits, One Day at a Time</p>
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="btn btn-icon theme-toggle" title="Toggle theme">
+                        <span class="theme-icon">☀️</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="screen active">
+                <div class="welcome-content">
+                    <button id="start-day-btn" class="btn btn-primary">Start New Day</button>
+                    <button id="view-stats-btn" class="btn btn-secondary">View Overall Statistics</button>
+                </div>
+            </div>
+
+            <!-- Daily Screen -->
+            <div id="daily-screen" class="screen">
+                <div class="daily-header">
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <span id="points-display">Points: 0/0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span id="streak-display">Streak: 0 days | Best: 0 days</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span id="progress-text">Progress: 0.00%</span>
+                    </div>
+
+                    <div id="challenge-display" class="challenge-display">
+                        Daily Challenge: None
+                    </div>
+                </div>
+
+                <div class="habits-section">
+                    <div class="habits-header">
+                        <h3>Daily Habits</h3>
+                        <div class="habit-buttons">
+                            <button id="add-habit-btn" class="btn btn-small">Add Habit</button>
+                            <button id="edit-habit-btn" class="btn btn-small">Edit Habit</button>
+                            <button id="remove-habit-btn" class="btn btn-small">Remove Habit</button>
+                            <button id="refresh-btn" class="btn btn-small">Refresh</button>
+                        </div>
+                    </div>
+
+                    <div class="habits-table-container">
+                        <table id="habits-table" class="habits-table">
+                            <thead>
+                                <tr>
+                                    <th>Done</th>
+                                    <th>Habit Name</th>
+                                    <th>Category</th>
+                                    <th>Priority</th>
+                                    <th>Points</th>
+                                </tr>
+                            </thead>
+                            <tbody id="habits-table-body">
+                                <!-- Habits will be added here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="daily-actions">
+                    <button id="take-break-btn" class="btn btn-secondary">Take Break</button>
+                    <button id="end-day-btn" class="btn btn-primary">End Day</button>
+                    <button id="back-home-btn" class="btn btn-secondary">Back to Home</button>
+                </div>
+            </div>
+
+            <!-- Stats Screen -->
+            <div id="stats-screen" class="screen">
+                <h2>Overall Statistics</h2>
+                <div id="stats-content" class="stats-content">
+                    <pre id="stats-text">No statistics available yet.</pre>
+                </div>
+                <button id="back-from-stats-btn" class="btn btn-primary">Back to Home</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals/Dialogs -->
+    <div id="goal-modal" class="modal">
+        <div class="modal-content goal-modal-content">
+            <div class="goal-modal-header">
+                <h3>🎯 Set Your Daily Goal</h3>
+                <p class="goal-subtitle">Choose how ambitious you want to be today!</p>
+            </div>
+
+            <div class="goal-presets">
+                <div class="goal-preset-card" data-goal="1000">
+                    <div class="preset-icon">🌱</div>
+                    <div class="preset-content">
+                        <h4>Beginner</h4>
+                        <p>Perfect for starting your habit journey</p>
+                        <div class="preset-points">1,000 points</div>
+                    </div>
+                    <div class="preset-difficulty">
+                        <span class="difficulty-badge easy">Easy</span>
+                    </div>
+                </div>
+
+                <div class="goal-preset-card" data-goal="2500">
+                    <div class="preset-icon">💪</div>
+                    <div class="preset-content">
+                        <h4>Intermediate</h4>
+                        <p>Good balance of challenge and achievability</p>
+                        <div class="preset-points">2,500 points</div>
+                    </div>
+                    <div class="preset-difficulty">
+                        <span class="difficulty-badge medium">Medium</span>
+                    </div>
+                </div>
+
+                <div class="goal-preset-card" data-goal="4000">
+                    <div class="preset-icon">🔥</div>
+                    <div class="preset-content">
+                        <h4>Advanced</h4>
+                        <p>For serious habit builders ready for a challenge</p>
+                        <div class="preset-points">4,000 points</div>
+                    </div>
+                    <div class="preset-difficulty">
+                        <span class="difficulty-badge hard">Hard</span>
+                    </div>
+                </div>
+
+                <div class="goal-preset-card custom" data-goal="custom">
+                    <div class="preset-icon">⚙️</div>
+                    <div class="preset-content">
+                        <h4>Custom Goal</h4>
+                        <p>Set your own target</p>
+                        <div class="custom-input-container">
+                            <input type="number" id="custom-goal-input" placeholder="1000-9999" min="1000" max="9999">
+                            <span class="points-label">points</span>
+                        </div>
+                    </div>
+                    <div class="preset-difficulty">
+                        <span class="difficulty-badge custom">Custom</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="goal-info">
+                <div class="goal-tip">
+                    💡 <strong>Tip:</strong> Start with a realistic goal you can achieve consistently.
+                    You can always adjust it later!
+                </div>
+            </div>
+
+            <div class="modal-buttons goal-modal-buttons">
+                <button id="goal-cancel-btn" class="btn btn-secondary">Cancel</button>
+                <button id="goal-ok-btn" class="btn btn-primary" disabled>Start My Day</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="habit-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="habit-modal-title">Add New Habit</h3>
+            <form id="habit-form">
+                <div class="form-group">
+                    <label for="habit-category">Category:</label>
+                    <select id="habit-category" required>
+                        <option value="HEALTH">Health</option>
+                        <option value="STUDY">Study</option>
+                        <option value="SPORTS_HOBBY">Sports & Hobby</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="habit-name">Habit Name:</label>
+                    <input type="text" id="habit-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="habit-priority">Priority:</label>
+                    <select id="habit-priority" required>
+                        <option value="HIGH">High</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="LOW">Low</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="habit-points">Points:</label>
+                    <input type="number" id="habit-points" min="1" required>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="submit" id="habit-submit-btn" class="btn btn-primary">Add Habit</button>
+                    <button type="button" id="habit-cancel-btn" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="milestone-modal" class="modal">
+        <div class="modal-content milestone-content">
+            <h2 id="milestone-message">Milestone Reached!</h2>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
